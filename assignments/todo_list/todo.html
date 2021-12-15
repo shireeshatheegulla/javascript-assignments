@@ -1,13 +1,273 @@
-<html>
-    <head>
-        <title>Todo List</title>
-    </head>
-    <body>
-        <div>
-            <input type='text' name='todo_input'>
-            <button type='submit'>Add Todo</button>
-            <div class='todos'></div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .dropbtn {
+        background-color: cornflowerblue;
+        border: 3px solid red;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        left: 150x;
+        top: 40px;
+        display: inline-block;
+        border: 1px solid black;
+
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color:yellowgreen;
+        min-width: 240px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #ddd;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 35px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        color: white;
+
+    }
+
+    body {
+        background-color: cornflowerblue;
+    }
+
+    .container2 {
+        background-color: white;
+        width: 80%;
+
+        display: flex;
+        margin-left: 300px;
+        flex-direction: column;
+        flex-wrap: wrap;
+        box-shadow: white 5px;
+        border-radius: 25px 15px 15px 25px;
+        display: none;
+
+    }
+
+    .container1 {
+
+        background-color: white;
+        width: 80%;
+
+        display: flex;
+        margin-left: 300px;
+        flex-direction: column;
+        flex-wrap: wrap;
+        box-shadow: white 5px;
+        border-radius: 25px 15px 15px 25px;
+        display: none;
+    }
+
+    .row {
+        width: 100%;
+        position: relative;
+
+
+        display: inline;
+        text-align: center;
+        display: flex;
+        justify-content: space-evenly;
+
+    }
+
+    /* Create four equal columns that floats next to each other */
+    .column {
+        float: left;
+        width: 25%;
+        padding-bottom: 5px;
+        height: 70px;
+        text-align: center;
+
+        /* Should be removed. Only for demonstration */
+    }
+
+    .a {
+        border-radius: 10px 0px 0px 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">Select Completed Or Pending</button>
+        <div class="dropdown-content">
+            <a href="#" id="btn1">Click here For complted</a>
+            <a href="#" id="btn2">Click here for pending</a>
+
         </div>
-    </body>
-    <script src='./script.js'></script>
+    </div>
+    <h1 id="h1"></h1>
+    <div class="container1" id="container1">
+
+
+
+        <div class="row" id="row">
+            <div class="column a">
+                <h2>Id</h2>
+
+            </div>
+            <div class="column b">
+                <h2>User Id</h2>
+
+            </div>
+            <div class="column c">
+                <h2>Title</h2>
+
+            </div>
+            <div class="column d">
+                <h2>Completed</h2>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <div class="container2" id="container2">
+        <div class="row" id="row">
+            <div class="column a">
+                <h2>Id</h2>
+
+            </div>
+            <div class="column b">
+                <h2>User Id</h2>
+
+            </div>
+            <div class="column c">
+                <h2>Title</h2>
+
+            </div>
+            <div class="column d">
+                <h2>Completed</h2>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        const api_url = "https://jsonplaceholder.typicode.com/todos";
+        async function getapi(url) {
+            const response = await fetch(url);
+            var data = await response.json();
+            let completed = []
+            let pending = []
+            
+            for (let i = 0; i < data.length; i++) {
+                if (data[i]['completed'] === true) {
+                    completed.push(data[i]);
+                } else {
+                    pending.push(data[i]);
+                }
+            }
+            
+            let container1 = document.getElementById("container1")
+            let container2=document.getElementById("container2")
+
+            
+
+            for (let i = 0; i < completed.length; i++) {
+
+
+                let newElemnt = document.createElement('div')
+                newElemnt.innerHTML = `<div class="row" id="row">
+            <div class="column a"><h2>${completed[i].id}</h2></div>
+            <div class="column b"><h2>${completed[i].userId}</h2></div>
+            <div class="column c"><h2>${completed[i].title}</h2></div>
+            <div class="column d"><h2>${completed[i].completed}</h2></div>
+            </div>`
+                container1.appendChild(newElemnt)
+            }
+            for (let i = 0; i < completed.length; i++) {
+
+                let newElemnt1 = document.createElement('div')
+                newElemnt1.innerHTML = `<div class="row" id="row">
+                    <div class="column a"><h2>${pending[i].id}</h2></div>
+                    <div class="column b"><h2>${pending[i].userId}</h2></div>
+                    <div class="column c"><h2>${pending[i].title}</h2></div>
+                    <div class="column d"><h2>${pending[i].completed}</h2></div>
+                    </div>`
+                container2.appendChild(newElemnt1)
+            }
+        }
+        getapi(api_url)
+        let btn1 = document.getElementById("btn1")
+        let f = 1;
+        btn1.addEventListener('click', function () {
+            if (f == 1) {
+                document.getElementById("container1").style.display = "block";
+                document.getElementById("h1").textContent = "All Complted Items"
+                f = 0
+            } else {
+                document.getElementById("container2").style.display = "none"
+                document.getElementById("container1").style.display = "block"
+                document.getElementById("h1").textContent = "All Complted Items"
+            }
+
+        })
+        let btn2 = document.getElementById("btn2")
+        btn2.addEventListener('click', function () {
+            if (f == 1) {
+                document.getElementById("container2").style.display = "block";
+                document.getElementById("h1").textContent = "All Pending Items"
+                f = 0
+            } else {
+                document.getElementById("container1").style.display = "none"
+                document.getElementById("container2").style.display = "block"
+                document.getElementById("h1").textContent = "All Pending Items"
+            }
+        })
+
+
+    </script>
+</body>
+
 </html>
